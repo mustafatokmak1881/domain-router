@@ -1,0 +1,20 @@
+{
+  "name": "domain-router",
+  "version": "1.0.0",
+  "description": "This application provides domain routing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mustafatokmak1881/domain-router.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mustafatokmak1881/domain-router/issues"
+  },
+  "homepage": "https://github.com/mustafatokmak1881/domain-router#readme"
+}
