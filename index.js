@@ -1,7 +1,8 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const app = require("express")();
+const express = require("express");
+const app = express();
 const port = 80;
 
 const server = http.createServer(app);
@@ -35,16 +36,13 @@ const createFolderIfNotExists = (domainFolder, res) => {
   });
 };
 
-app.use(async (req, res, next) => {
+app.use("/", async (req, res, next) => {
   const { host } = req.headers;
   await createFolderIfNotExists(host, res);
   const domainPath = path.join(__dirname, host);
-  console.log({domainPath});
-  res.sendFile(domainPath + '/index.html');
-});
-
-app.get("/", (req, res) => {
-  res.send("Domain router is running ...");
+  console.log({ domainPath });
+  app.use(express.static(domainPath));
+  next();
 });
 
 server.listen(port, () => {
