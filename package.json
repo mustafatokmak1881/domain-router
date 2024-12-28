@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/mustafatokmak1881/domain-router/issues"
   },
-  "homepage": "https://github.com/mustafatokmak1881/domain-router#readme"
+  "homepage": "https://github.com/mustafatokmak1881/domain-router#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "http": "^0.0.1-security"
+  }
 }
