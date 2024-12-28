@@ -6,27 +6,45 @@ const port = 80;
 
 const server = http.createServer(app);
 
-const createFolderIfNotExists = (domainFolder) => {
-  const domainPath = path.join(__dirname, domainFolder);
-  if (!fs.existsSync(domainPath)) {
-    const exists = fs.mkdirSync(domainFolder);
-    if (!exists) {
-      console.log(`domainPath created: ${domainFolder}`);
-      return false;
-    }
-    console.log(`domainPath already exists: ${domainFolder}`);
-  }
+const createFolderIfNotExists = (domainFolder, res) => {
+  return new Promise((resolve, reject) => {
+    (async () => {
+      const domainPath = path.join(__dirname, domainFolder);
+
+      if (!fs.existsSync(domainPath)) {
+        const exists = fs.mkdirSync(domainFolder);
+        if (!exists) {
+          const indexHtmlFile = `${domainFolder}/index.html`;
+          fs.writeFileSync(indexHtmlFile, `<b>Welcome Page</b>`);
+          resolve({
+            status: true,
+            message: `domainPath created: ${domainFolder}`,
+          });
+        }
+        resolve({
+          status: true,
+          message: `domainPath already exists: ${domainFolder}`,
+        });
+      }
+
+      resolve({
+        status: true,
+        message: `domainPath already exists: ${domainFolder}`,
+      });
+    })();
+  });
 };
 
-app.use("/", (req, res, next) => {
+app.use(async (req, res, next) => {
   const { host } = req.headers;
-  console.log({ host });
-  createFolderIfNotExists(host);
-  next();
+  await createFolderIfNotExists(host, res);
+  const domainPath = path.join(__dirname, host);
+  console.log({domainPath});
+  res.sendFile(domainPath + '/index.html');
 });
 
 app.get("/", (req, res) => {
-  res.send("Welcome");
+  res.send("Domain router is running ...");
 });
 
 server.listen(port, () => {
